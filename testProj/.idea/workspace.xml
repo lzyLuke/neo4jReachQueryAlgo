@@ -2,25 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1bc08562-7359-4999-ae7f-b7ae0dd8775a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testProj.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../zeyu/src/main/java/Grail/Grail.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../zeyu/src/main/java/Grail/GrailGraphUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../zeyu/src/main/java/Grail/InOutList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zeyu/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../zeyu/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../zeyu/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../zeyu/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zeyu/src/main/java/Grail/GrailGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zeyu/src/main/java/Grail/GrailGraph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zeyu/src/main/java/Grail/GrailNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zeyu/src/main/java/Grail/GrailNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zeyu/target/classes/neo4jReachability/CreatGraph$NodeRelationships.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zeyu/target/classes/neo4jReachability/CreatGraph.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zeyu/target/classes/neo4jReachability/ReadGraph.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zeyu/target/classes/neo4jReachability/test.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zeyu/zeyu.iml" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -87,7 +69,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556078946922" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556079497652" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
