@@ -56,5 +56,13 @@ public class GrailGraph {
         return graph.get(src).outList.size();
     }
 
-
+    //root is zero inDegree node
+    ArrayList<Integer> getRoots(){
+        ArrayList<Integer> roots = new ArrayList<>();
+        for(int i=0;i<graph.size();i++){
+            if(graph.get(i).inList.size()==0)
+                roots.add(i);
+        }
+        return roots;
+    }
 }
