@@ -11,7 +11,7 @@ public class GrailGraph {
     ArrayList<InOutList> graph = new ArrayList<InOutList>();
 
 
-    GrailGraph(GraphDatabaseService db){
+    public GrailGraph(GraphDatabaseService db){
 
         for(Node n:db.getAllNodes()){
             vl.add(new GrailNode(n));

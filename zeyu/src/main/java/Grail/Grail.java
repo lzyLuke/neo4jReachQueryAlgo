@@ -12,7 +12,7 @@ public class Grail {
     int[] visited;
     int QueryCnt=0;
     int PositiveCut=0,NegativeCut=0,TotalCall=0,TotalDepth=0,CurrentDepth=0;
-    Grail(GrailGraph graph,int Dim){
+    public Grail(GrailGraph graph,int Dim){
         g=graph;
         dim=Dim;
         int maxid=g.getNumVertices();
@@ -65,7 +65,7 @@ public class Grail {
         return preOrder;
     }
 
-    boolean reach(int src,int trg){
+    public boolean reach(int src,int trg){
         if(src==trg) return true;
         if(!contains(src,trg)) return false;
 

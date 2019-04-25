@@ -1,7 +1,8 @@
 public class test {
     public static void main(String[]args){
-        long a =213;
-        int b= (int)a;
-        System.out.println(b);
+        String[] tokens;
+        String line = "123 123 123";
+        tokens=line.split("\\s+");
+        System.out.println(tokens.length);
     }
 }
