@@ -12,6 +12,9 @@ public class PathTreeNode {
     int post_order;
     int first_visit;
     public PathTreeNode(Node n){
+    }
+
+    public  PathTreeNode(){
 
     }
 }
