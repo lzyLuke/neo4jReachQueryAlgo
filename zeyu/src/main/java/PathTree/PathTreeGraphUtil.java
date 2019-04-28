@@ -3,7 +3,6 @@ package PathTree;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import javafx.util.Pair;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.util.*;
@@ -11,24 +10,25 @@ import java.util.*;
 public class PathTreeGraphUtil {
 
     static void mergeSCC(PathTreeGraph g, int[] on , ArrayList<Integer> reverse_topo_sort){
-        ArrayList<Integer> sn;
+        ArrayList<Integer> sn=new ArrayList<>();
 
-        HashMap<Integer, Pair<Integer,Integer>> order;
-        int ind=0;
+        HashMap<Integer, Pair> order = new HashMap<Integer, Pair>();
+        MutableInt ind=new MutableInt(0);
+        MutableInt scc=new MutableInt(0);
         Multimap<Integer,Integer> sccmap = ArrayListMultimap.create();
 
-        int scc =0;
         int vid;
         int origsize=g.getNumVertices();
+
 
         for(int i=0;i<origsize;i++){
             vid=i;
             if(g.getNode(vid).visited)
                 continue;
-            //tarjan(g,vid,ind,order,sn,sccmap,scc);
+            tarjan(g,vid,ind,order,sn,sccmap,scc);
         }
 
-        if(scc==origsize){
+        if(scc.intValue()==origsize){
             for (int i=0;i<origsize;i++)
                 on[i] = i;
             topological_sort(g,reverse_topo_sort);
@@ -121,7 +121,7 @@ public class PathTreeGraphUtil {
         }
     }
 
-    void traverse(PathTreeGraph tree, int vid ,MutableInt pre_post, boolean[] visited){
+    static void traverse(PathTreeGraph tree, int vid ,MutableInt pre_post, boolean[] visited){
         visited[vid]=true;
         ArrayList<Integer> el =tree.outEdges(vid);
         int pre_order;
@@ -135,7 +135,7 @@ public class PathTreeGraphUtil {
             pre_post.increment();
         }
     }
-    void pre_post_labeling(PathTreeGraph tree){
+    static void pre_post_labeling(PathTreeGraph tree){
         ArrayList<Integer> roots = tree.getRoots();
         MutableInt pre_post = new MutableInt(0);
         int pre_order = 0;
@@ -153,6 +153,46 @@ public class PathTreeGraphUtil {
 
     }
 
+    static void tarjan(PathTreeGraph g, int vid, MutableInt index, HashMap<Integer,Pair> order,ArrayList<Integer> sn,
+                Multimap<Integer,Integer> sccmap,MutableInt scc){
+        Pair p = new Pair();
+        p.first=index.intValue();p.second=index.intValue();
+        order.put(vid,p);
 
+        index.increment();
+        sn.add(vid);
+        g.getNode(vid).visited=true;
+        ArrayList<Integer> el = g.outEdges(vid);
+        for(int eit:el){
+            if(!g.getNode(eit).visited){
+                tarjan(g,eit,index,order,sn,sccmap,scc);
+                order.get(vid).second = Math.min(order.get(eit).second,order.get(vid).second);
+            }
+            else if(sn.contains(eit)){
+                order.get(vid).second = Math.min(order.get(eit).first,order.get(vid).second);
+            }
+
+        }
+
+        Collections.reverse(sn);
+        ArrayList<Integer> reverse_sn = new ArrayList<Integer>(sn);
+        Collections.reverse(sn);
+        if(order.get(vid).first==order.get(vid).second){
+            ArrayList<Integer> vec = new ArrayList<>();
+            for(Integer rit:reverse_sn){
+                if(rit!=vid){
+                    sccmap.put(scc.intValue(),rit);
+                    sn.remove(sn.size()-1);
+                }else{
+                    sccmap.put(scc.intValue(),rit);
+                    sn.remove(sn.size()-1);
+                    break;
+                }
+            }
+            scc.increment();
+        }
+
+
+    }
 
 }

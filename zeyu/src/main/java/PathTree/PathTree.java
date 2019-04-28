@@ -13,7 +13,7 @@ public class PathTree {
     PathTreeGraph newbranch;
 
     int[] nextVertex;
-    Set[] out_uncover;
+    HashSet[] out_uncover;
     ArrayList<ArrayList<Integer>> pathMap;
     ArrayList<Integer> grts;
     int[][] labels;
@@ -22,18 +22,18 @@ public class PathTree {
 
 
     PathTree(PathTreeGraph graph, ArrayList<Integer> ts){
+        g=graph;
         grts = ts;
         int maxid = g.getNumVertices();
         labels = new int[maxid][3];
 
         nextVertex = new int[maxid];
-        out_uncover = new Set[maxid];
+        out_uncover = new HashSet[maxid];
         for(int i=0;i<maxid;i++){
             nextVertex[i]=-1;
             out_uncover[i] = new HashSet<Integer>();
         }
         pathMap = new ArrayList<>();
-        g=new PathTreeGraph();
         pg = new DWGraph();
         ng = new PathTreeGraph(maxid);
         branch = new DWGraph();
@@ -76,6 +76,7 @@ public class PathTree {
                 depth++;
             }
         }
+        System.out.println(edgeid);
     }
 
     void createLabels(){
@@ -89,10 +90,62 @@ public class PathTree {
 
 
         newbranch = new PathTreeGraph(branch.numVertices());
-
         transform(branch,newbranch);
 
         buildEquGraph();
+
+        PathTreeGraphUtil.pre_post_labeling(newbranch);
+
+        //create labels for every vertex
+        ArrayList<Integer> reverse_topo_sort = new ArrayList<>();
+        PathTreeGraphUtil.topological_sort(newbranch, reverse_topo_sort);
+
+        ArrayList<Integer> path;
+        int order = g.num_vertices();
+        int first_order=1;
+        boolean[] visited = new boolean[order];
+        Collections.reverse(reverse_topo_sort);
+        ArrayList<Integer> topo_sort = reverse_topo_sort;
+        MutableInt orderMutable = new MutableInt(order);
+        MutableInt first_orderMutable = new MutableInt(first_order);
+        for(int rit:topo_sort) {
+            path = pathMap.get(rit);
+            for (int lit : path) {
+                if (!visited[lit])
+                    pathDFS(lit, orderMutable, first_orderMutable, visited);
+            }
+        }
+
+        //update label vecotr
+        int gsize = g.num_vertices();
+        for(int i=0;i<gsize;i++){
+            labels[i][0] = newbranch.getNode(g.getNode(i).path_id).pre_order;
+            labels[i][1] = newbranch.getNode(g.getNode(i).path_id).post_order;
+            labels[i][2] = g.getNode(i).dfs_order;
+        }
+
+        //handling edges not covered
+        ArrayList<Integer> el;
+        int pre1,post1,pre2,post2;
+
+        for(int vit:grts){
+            el = g.outEdges(vit);
+            pre1 = labels[vit][0];
+            post1 = labels[vit][1];
+            for(int eit:el){
+                insertSet(out_uncover[vit],out_uncover[eit]);
+                if(labels[vit][2]<=labels[eit][2]&&labels[eit][0] >= pre1&&labels[eit][1]<=post1)
+                    continue;
+                HashSet<Integer> temp = new HashSet<>();
+                temp.add(eit);
+                insertSet(out_uncover[vit], temp);
+            }
+        }
+
+
+
+
+
 
 
     }
@@ -183,27 +236,29 @@ public class PathTree {
 
     void insertSet(HashSet<Integer> s1,HashSet<Integer> s2){
         boolean insert;
-        int pre1,post1,pre2,post2;
+        int pre1,post1,pre2,post2,starsit1;
         for(int sit2:s2){
             insert=true;
             pre2=labels[sit2][0];
             post2=labels[sit2][1];
-            for(int sit1:s1){
-                pre1 = labels[sit1][0];
-                post1 = labels[sit1][1];
-                if(pre2 >= pre1 && post2 <= post1 && labels[sit1][2]<labels[sit2][2]){
+            for(Iterator<Integer> sit1=s1.iterator();sit1.hasNext();){
+                starsit1=sit1.next();
+                pre1 = labels[starsit1][0];
+                post1 = labels[starsit1][1];
+                if(pre2 >= pre1 && post2 <= post1 && labels[starsit1][2]<labels[sit2][2]){
                     insert=false;
                     break;
                 }
-                else if(pre2<=pre1&&post2>=post1&&labels[sit1][2]>labels[sit2][2]){
-                    s1.remove(sit1);
-                    sit1++;
+                else if(pre2<=pre1&&post2>=post1&&labels[starsit1][2]>labels[sit2][2]){
+                    sit1.remove();
+
                 }
-                else
-                    sit1++;
-
             }
-
+            if(insert) s1.add(sit2);
         }
     }
+
+
+
+
 }

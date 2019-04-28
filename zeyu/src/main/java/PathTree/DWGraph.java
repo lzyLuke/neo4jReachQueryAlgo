@@ -12,6 +12,7 @@ public class DWGraph {
     DWGraph() {
         graph = new HashMap<Integer, InOutList>();
         vl = new HashMap<Integer, DWVertex>();
+        edgeOpMap = new HashMap<Integer, DWEdgeProp>();
         maxEdgeId = 0;
     }
 
@@ -21,6 +22,7 @@ public class DWGraph {
         v.visited=false;
 
         vl.put(vid,v);
+        graph.put(vid,new InOutList());
     }
 
     void addEdge(int sid,int tid,int weight,int edgeid){
@@ -35,11 +37,14 @@ public class DWGraph {
         if(edgeOpMap.containsKey(edgeid)){
             osid=edgeOpMap.get(edgeid).src;
             otid=edgeOpMap.get(edgeid).trg;
+        }else{
+            edgeOpMap.put(edgeid,new DWEdgeProp());
         }
 
         edgeOpMap.get(edgeid).src=sid;
         edgeOpMap.get(edgeid).trg=tid;
         edgeOpMap.get(edgeid).weight=weight;
+
 
         if(sid!=osid)
             graph.get(sid).outList.add(edgeid);

@@ -10,11 +10,13 @@ public class test {
         hs.add(4);
         hs.add(5);
 
-        for(int sit:hs){
+        for(Iterator<Integer> sit1=hs.iterator();sit1.hasNext();){
+            int sit =sit1.next();
             if(sit==3)
-                hs.remove(3);
-            System.out.println(sit);
+                sit1.remove();
         }
+
+        System.out.println(hs);
     }
 
 }
