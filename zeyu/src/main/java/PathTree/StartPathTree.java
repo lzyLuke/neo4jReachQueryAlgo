@@ -12,9 +12,9 @@ import java.util.ArrayList;
 public class StartPathTree {
     public static void main(String[] args){
         //For my ByteDance MBP:
-        //File file  = new File("/Users/liuzeyu/Documents/idea/neo4jReachQueryAlgo/graph/agrocyc");
+        File file  = new File("/Users/liuzeyu/Documents/idea/neo4jReachQueryAlgo/graph/agrocyc");
         //For my own MBP:
-        File file  = new File("/Users/luke/Documents/毕设/workplace/neo4jReachQueryAlgo/graph/agrocyc");
+        //File file  = new File("/Users/luke/Documents/毕设/workplace/neo4jReachQueryAlgo/graph/agrocyc");
         GraphDatabaseFactory dbFactory = new GraphDatabaseFactory();
         GraphDatabaseService db = dbFactory.newEmbeddedDatabase(file);
         try (Transaction tx = db.beginTx()) {

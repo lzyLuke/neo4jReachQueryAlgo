@@ -1,22 +1,29 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.util.*;
 
 public class test {
     public static void main(String[] args) {
-        HashSet<Integer> hs = new HashSet<>();
+        File cplus= new File("/Users/liuzeyu/Desktop/c++");
+        File java = new File("/Users/liuzeyu/Desktop/java");
+        try {
+            BufferedReader crd = new BufferedReader(new FileReader(cplus));
+            BufferedReader jrd = new BufferedReader(new FileReader(java));
 
-        hs.add(1);
-        hs.add(2);
-        hs.add(3);
-        hs.add(4);
-        hs.add(5);
+            String a = crd.readLine();
+            String b = jrd.readLine();
 
-        for(Iterator<Integer> sit1=hs.iterator();sit1.hasNext();){
-            int sit =sit1.next();
-            if(sit==3)
-                sit1.remove();
+            if(!a.equals(b)){
+                System.out.println("WTF");
+            }
+            System.out.println("Same");
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
-        System.out.println(hs);
+
     }
 
 }

@@ -13,7 +13,7 @@ public class PathTree {
     PathTreeGraph newbranch;
 
     int[] nextVertex;
-    HashSet[] out_uncover;
+    TreeSet<Integer>[] out_uncover;
     ArrayList<ArrayList<Integer>> pathMap;
     ArrayList<Integer> grts;
     int[][] labels;
@@ -28,22 +28,21 @@ public class PathTree {
         labels = new int[maxid][3];
 
         nextVertex = new int[maxid];
-        out_uncover = new HashSet[maxid];
+        out_uncover = new TreeSet[maxid];
         for(int i=0;i<maxid;i++){
             nextVertex[i]=-1;
-            out_uncover[i] = new HashSet<Integer>();
+            out_uncover[i] = new TreeSet<Integer>();
         }
         pathMap = new ArrayList<>();
         pg = new DWGraph();
         ng = new PathTreeGraph(maxid);
         branch = new DWGraph();
         newbranch = new PathTreeGraph();
-
-
     }
 
     void buildWeightPathGraph(){
         PathTreeGraphUtil.pathDecomposition(g, pathMap, grts);
+        //check correct
         HashMap<Integer,Integer> fastMap = new HashMap<>();
         ArrayList<Integer> path = new ArrayList<>();
         ArrayList<Integer> el ;
@@ -122,6 +121,7 @@ public class PathTree {
             labels[i][0] = newbranch.getNode(g.getNode(i).path_id).pre_order;
             labels[i][1] = newbranch.getNode(g.getNode(i).path_id).post_order;
             labels[i][2] = g.getNode(i).dfs_order;
+            //System.out.println(String.valueOf(labels[i][0])+','+ String.valueOf(labels[i][1])+','+ String.valueOf(labels[i][2]));
         }
 
         //handling edges not covered
@@ -136,17 +136,34 @@ public class PathTree {
                 insertSet(out_uncover[vit],out_uncover[eit]);
                 if(labels[vit][2]<=labels[eit][2]&&labels[eit][0] >= pre1&&labels[eit][1]<=post1)
                     continue;
-                HashSet<Integer> temp = new HashSet<>();
+                TreeSet<Integer> temp = new TreeSet<>();
                 temp.add(eit);
                 insertSet(out_uncover[vit], temp);
             }
         }
 
 
+        /*
+        for(int i=0;i<out_uncover.length;i++){
+            if(out_uncover[i].size()!=0){
+                System.out.println(String.valueOf(i)+","+String.valueOf(out_uncover[i].size()));
+            }
+        }
 
+        */
+        ArrayList<Integer> ab = new ArrayList<>();
 
+        for(Integer i:out_uncover[12676]){
+            ab.add(i);
+        }
+        Collections.sort(ab);
+        int count=0;
+        for(int i:ab){
+            count++;
+            System.out.println(i);
+        }
 
-
+        System.out.println(count);
 
     }
 
@@ -234,7 +251,7 @@ public class PathTree {
         order.decrement();
     }
 
-    void insertSet(HashSet<Integer> s1,HashSet<Integer> s2){
+    void insertSet(TreeSet<Integer> s1,TreeSet<Integer> s2){
         boolean insert;
         int pre1,post1,pre2,post2,starsit1;
         for(int sit2:s2){
@@ -243,6 +260,7 @@ public class PathTree {
             post2=labels[sit2][1];
             for(Iterator<Integer> sit1=s1.iterator();sit1.hasNext();){
                 starsit1=sit1.next();
+
                 pre1 = labels[starsit1][0];
                 post1 = labels[starsit1][1];
                 if(pre2 >= pre1 && post2 <= post1 && labels[starsit1][2]<labels[sit2][2]){
@@ -250,12 +268,18 @@ public class PathTree {
                     break;
                 }
                 else if(pre2<=pre1&&post2>=post1&&labels[starsit1][2]>labels[sit2][2]){
+                    if(s1==out_uncover[12676]&&starsit1==6067)
+                        System.out.println("find");
                     sit1.remove();
-
                 }
             }
+
+
             if(insert) s1.add(sit2);
         }
+
+
+
     }
 
 

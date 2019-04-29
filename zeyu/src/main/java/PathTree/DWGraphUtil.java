@@ -18,6 +18,8 @@ public class DWGraphUtil {
         DWVertexProp maxe = new DWVertexProp();
 
         for (Integer vlit : vl.keySet()) {
+
+
             maxw = Integer.MIN_VALUE;
             el = g.inEdges(vlit);
 

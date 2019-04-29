@@ -8,7 +8,8 @@ public class DWGraph {
     HashMap<Integer,DWVertex> vl;
     HashMap<Integer,DWEdgeProp> edgeOpMap;
     int maxEdgeId;
-
+    int sidcount=0;
+    int tidcount=0;
     DWGraph() {
         graph = new HashMap<Integer, InOutList>();
         vl = new HashMap<Integer, DWVertex>();
@@ -22,6 +23,7 @@ public class DWGraph {
         v.visited=false;
 
         vl.put(vid,v);
+        if(!graph.containsKey(vid))
         graph.put(vid,new InOutList());
     }
 
@@ -46,12 +48,15 @@ public class DWGraph {
         edgeOpMap.get(edgeid).weight=weight;
 
 
-        if(sid!=osid)
+        if(sid!=osid) {
             graph.get(sid).outList.add(edgeid);
+            sidcount++;
+        }
 
-        if(tid!=otid)
+        if(tid!=otid) {
             graph.get(tid).inList.add(edgeid);
-
+            tidcount++;
+        }
         if(sid!=osid && tid!=otid)
             maxEdgeId++;
     }

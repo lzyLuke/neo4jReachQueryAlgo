@@ -37,6 +37,7 @@ public class PathTreeGraph {
         for(Relationship rl:db.getAllRelationships()){
             addEdge((int)rl.getStartNodeId(),(int)rl.getEndNodeId());
         }
+        vsize = vl.size();
     }
 
     int getNumVertices(){
