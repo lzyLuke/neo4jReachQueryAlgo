@@ -1,3 +1,5 @@
+package Grail;
+
 import Grail.GrailGraph;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
