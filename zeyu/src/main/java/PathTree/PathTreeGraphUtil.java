@@ -3,6 +3,7 @@ package PathTree;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.TreeMultimap;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -46,13 +47,9 @@ public class PathTreeGraphUtil {
 
         int num_comp;
         int maxid=g.getNumVertices()-1;
-        TreeMap<Integer,Integer> tp = new TreeMap<>();
 
-        for(Map.Entry<IntegerInteger> mit:sccmap.entries()){
+        for(Map.Entry<Integer,Integer> mit:sccmap.entries()){
 
-            num_comp=mit.getKey();
-
-            if()
 
         }
     }
