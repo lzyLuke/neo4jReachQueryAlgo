@@ -133,12 +133,27 @@ public class PathTree {
             pre1 = labels[vit][0];
             post1 = labels[vit][1];
             for(int eit:el){
+                //int size1=0,size2=0,size3=0;
+                //size1=out_uncover[vit].size();
                 insertSet(out_uncover[vit],out_uncover[eit]);
+                //size2=out_uncover[vit].size();
+                /*
+                if(vit==12676) {
+                    System.out.print(eit);
+                    System.out.print(":");
+                    System.out.print(size1);
+                    System.out.print(",");
+                    System.out.print(size2);
+                    System.out.print(",");
+                    System.out.println(size3);
+                }*/
                 if(labels[vit][2]<=labels[eit][2]&&labels[eit][0] >= pre1&&labels[eit][1]<=post1)
                     continue;
                 TreeSet<Integer> temp = new TreeSet<>();
                 temp.add(eit);
                 insertSet(out_uncover[vit], temp);
+                //size3=out_uncover[vit].size();
+
             }
         }
 
@@ -151,19 +166,9 @@ public class PathTree {
         }
 
         */
-        ArrayList<Integer> ab = new ArrayList<>();
 
-        for(Integer i:out_uncover[12676]){
-            ab.add(i);
-        }
-        Collections.sort(ab);
-        int count=0;
-        for(int i:ab){
-            count++;
-            System.out.println(i);
-        }
 
-        System.out.println(count);
+
 
     }
 
@@ -268,9 +273,10 @@ public class PathTree {
                     break;
                 }
                 else if(pre2<=pre1&&post2>=post1&&labels[starsit1][2]>labels[sit2][2]){
-                    if(s1==out_uncover[12676]&&starsit1==6067)
-                        System.out.println("find");
+
                     sit1.remove();
+                    if(sit1.hasNext())
+                        sit1.next();
                 }
             }
 
@@ -282,7 +288,27 @@ public class PathTree {
 
     }
 
+    boolean reach(int src, int trg){
+        int pre1, post1,pre2, post2;
+        pre1 = labels[src][0];
+        post1 = labels[src][1];
+        pre2 = labels[trg][0];
+        post2 = labels[trg][1];
 
+        if(labels[src][2]<=labels[trg][2]&&post2>=pre1 && post2<=post1)
+            return true;
+
+        TreeSet<Integer> si = out_uncover[src];
+        for(int sit:si){
+            pre1=labels[sit][0];
+            post1 = labels[sit][1];
+            if(labels[sit][2]<=labels[trg][2]&&post2>=pre1&&post2<=post1)
+                return true;
+        }
+
+        return false;
+
+    }
 
 
 }
