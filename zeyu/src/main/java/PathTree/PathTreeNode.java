@@ -11,8 +11,7 @@ public class PathTreeNode {
     int pre_order;
     int post_order;
     int first_visit;
-    public PathTreeNode(Node n){
-    }
+
 
     public  PathTreeNode(){
 

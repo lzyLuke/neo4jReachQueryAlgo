@@ -1,7 +1,6 @@
 package PathTree;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 
 import org.apache.commons.lang3.mutable.MutableInt;
@@ -11,7 +10,7 @@ import java.util.*;
 
 public class PathTreeGraphUtil {
 
-    static void mergeSCC(PathTreeGraph g, int[] on , ArrayList<Integer> reverse_topo_sort){
+    public static void mergeSCC(PathTreeGraph g, int[] on , ArrayList<Integer> reverse_topo_sort){
         ArrayList<Integer> sn=new ArrayList<>();
 
         HashMap<Integer, Pair> order = new HashMap<Integer, Pair>();

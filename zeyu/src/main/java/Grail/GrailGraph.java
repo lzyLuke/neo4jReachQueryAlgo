@@ -37,7 +37,7 @@ public class GrailGraph {
         return vl.get(id);
     }
 
-    int getNumVertices(){
+    public int getNumVertices(){
         return vl.size();
     }
 

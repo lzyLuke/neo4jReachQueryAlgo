@@ -30,7 +30,7 @@ public class PathTreeGraph {
     public PathTreeGraph(GraphDatabaseService db){
 
         for(Node n:db.getAllNodes()){
-            vl.add(new PathTreeNode(n));
+            vl.add(new PathTreeNode());
             graph.add(new InOutList());
         }
 
@@ -106,7 +106,7 @@ public class PathTreeGraph {
         graph.get(sid).outList.add(tid);
     }
 
-    int num_vertices(){
+    public int num_vertices(){
         return vl.size();
     }
 

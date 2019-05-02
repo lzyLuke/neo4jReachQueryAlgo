@@ -17,11 +17,12 @@ public class PathTree {
     ArrayList<ArrayList<Integer>> pathMap;
     ArrayList<Integer> grts;
     int[][] labels;
+    int[] sccmap;
 
 
 
 
-    PathTree(PathTreeGraph graph, ArrayList<Integer> ts){
+    public PathTree(PathTreeGraph graph, ArrayList<Integer> ts){
         g=graph;
         grts = ts;
         int maxid = g.getNumVertices();
@@ -40,6 +41,11 @@ public class PathTree {
         newbranch = new PathTreeGraph();
     }
 
+    public PathTree(PathTreeGraph graph, ArrayList<Integer> ts,int[] sccmap){
+        this(graph,ts);
+        this.sccmap=sccmap;
+
+    }
     void buildWeightPathGraph(){
         PathTreeGraphUtil.pathDecomposition(g, pathMap, grts);
         //check correct
@@ -75,10 +81,10 @@ public class PathTree {
                 depth++;
             }
         }
-        System.out.println(edgeid);
+
     }
 
-    void createLabels(){
+    public void createLabels(){
 
         //building weighted path graph
         buildWeightPathGraph();
@@ -288,7 +294,7 @@ public class PathTree {
 
     }
 
-    boolean reach(int src, int trg){
+    public boolean rawReach(int src, int trg){
         int pre1, post1,pre2, post2;
         pre1 = labels[src][0];
         post1 = labels[src][1];
@@ -308,6 +314,10 @@ public class PathTree {
 
         return false;
 
+    }
+
+    public boolean reach(int src, int trg){
+        return rawReach(sccmap[src], sccmap[trg]);
     }
 
 
