@@ -10,6 +10,16 @@ class Binfor {
     int rank;
     double dens;
     int bid;
+
+    public Binfor(){
+
+    }
+
+    public Binfor(int rank,double dens, int bid){
+        this.rank=rank;
+        this.dens=dens;
+        this.bid=bid;
+    }
     @Override
     public boolean equals(Object p){
         Binfor lb = (Binfor) p;

@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import org.apache.commons.lang3.mutable.MutableInt;
+import sun.jvm.hotspot.utilities.IntegerEnum;
 import sun.jvm.hotspot.utilities.IntervalTree;
 
 import java.awt.*;
@@ -300,12 +301,118 @@ public class ThreeHop {
         ts.add(value);
     }
 
-    void processBipartite(HashMap<Integer,TreeMap<Integer,Integer>> X,
+    void addBmMap(HashMap<Integer,HashMap<Integer,VertexInfor>> bm,int i,int j,VertexInfor vi){
+        if(!bm.containsKey(i))
+            bm.put(i,new HashMap<Integer,VertexInfor>());
+        HashMap<Integer,VertexInfor> secondmap = bm.get(i);
+
+        secondmap.put(j,vi);
+    }
+
+
+    boolean processBipartite(HashMap<Integer,TreeMap<Integer,Integer>> X,
                             HashMap<Integer,TreeMap<Integer,Integer>> Y,
                             HashMap<Integer,HashMap<Integer,TreeSet<Integer>>> edgeMap,
                             TreeSet<Integer>[] ps,TreeSet<Integer>[] uncovered,
                           MutableInt uncover_size
                             ){
+         int remove_size=0;
+         PriorityQueue<Binfor> pq = new PriorityQueue<Binfor>(new BInforComp());
+
+         HashMap<Integer,HashMap<Integer,TreeSet<Integer>>> edges_gl = new HashMap<>();
+         HashMap<Integer,HashMap<Integer,VertexInfor>> bm = new HashMap<>();
+         boolean found = false;
+
+         for(int hiter:X.keySet()){
+             int i = hiter;
+             if (X.get(i).size()==0 || Y.get(i).size()==0)
+                 continue;
+
+             Iterator<Integer> mit = X.get(i).keySet().iterator();
+             Iterator<Integer> mit1 = Y.get(i).keySet().iterator();
+
+             boolean mitFlag = true;
+             boolean mit1Flag = true;
+             int mitvalue=0;
+             int mit1value=0;
+             while(mit.hasNext()&&mit1.hasNext()){
+                 if(mitFlag)
+                 mitvalue = mit.next();
+                 if(mit1Flag)
+                 mit1value = mit1.next();
+
+                 if(mitvalue < mit1value){
+                     VertexInfor vi = new VertexInfor();
+                     vi.part = 0;
+                     vi.rank = Integer.MAX_VALUE;
+                     addBmMap(bm, i, mitvalue, vi);
+                     mitFlag=true;
+                     mit1Flag=false;
+                 }
+                 else if(mitvalue > mit1value){
+                     VertexInfor vi = new VertexInfor();
+                     vi.part = 1;
+                     vi.rank = Integer.MAX_VALUE;
+                     addBmMap(bm,i,mit1value,vi);
+                     mitFlag=false;
+                     mit1Flag=true;
+                 }else{
+                     VertexInfor vi = new VertexInfor();
+                     vi.part = 2;
+                     vi.rank = Integer.MAX_VALUE;
+                     addBmMap(bm,i,mitvalue,vi);
+                     mitFlag=true;
+                     mit1Flag=true;
+                 }
+             }
+
+             while(mit.hasNext()){
+                 mitvalue = mit.next();
+                 VertexInfor vi = new VertexInfor();
+                 vi.part=0;
+                 vi.rank=Integer.MAX_VALUE;
+                 addBmMap(bm, i, mitvalue, vi);
+             }
+
+             while(mit1.hasNext()){
+                 mit1value = mit1.next();
+                 VertexInfor vi = new VertexInfor();
+                 vi.part=1;
+                 vi.rank=Integer.MAX_VALUE;
+                 addBmMap(bm,i,mit1value,vi);
+             }
+
+             Binfor infor = new Binfor(Integer.MAX_VALUE,0,i);
+             rankGraph(bm.get(i),edgeMap.get(i),infor,edges_gl.get(i),1,uncovered);
+             pq.add(infor);
+             if(infor.dens>0) found = true;
+
+         }
+
+        if(!found) return false;
+
+
+
+    }
+
+
+
+
+    void rankGraph(HashMap<Integer,VertexInfor> vertices,
+                   HashMap<Integer,TreeSet<Integer>> edges,
+                   Binfor infor,
+                   HashMap<Integer,TreeSet<Integer>> edges_gl,
+                   int r,
+                   TreeSet<Integer>[] uncovered){
+        HashMap<Integer,TreeSet<Integer>> gl_edges;
+        TreeSet<Integer> gl_vertices;
+        HashMap<Integer,Boolean> keep = new HashMap<>();
+
+        for(int hsit:edges.keySet()){
+            keep.put(hsit,false);
+            if(chains[hsit][0]==infor.bid) keep.put(hsit,true);
+            for(int sit:edges.get(hsit))
+        }
 
     }
 }
